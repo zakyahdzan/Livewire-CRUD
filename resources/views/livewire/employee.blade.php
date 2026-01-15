@@ -17,7 +17,6 @@
                 {{ session('message') }}
             </div>
         </div>
-        
     @endif
     <!-- START FORM -->
     <div class="my-3 p-3 bg-body rounded shadow-sm">
@@ -42,7 +41,8 @@
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10"><button type="button" class="btn btn-primary" name="submit" wire:click="store()">SIMPAN</button>
+                <div class="col-sm-10"><button type="button" class="btn btn-primary" name="submit"
+                        wire:click="store()">SIMPAN</button>
                 </div>
             </div>
         </form>
@@ -63,19 +63,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Muhammad</td>
-                    <td>muhammad@gmail.com</td>
-                    <td>Yogyakarta</td>
-                    <td>
-                        <a href="" class="btn btn-warning btn-sm">Edit</a>
-                        <a href="" class="btn btn-danger btn-sm">Del</a>
-                    </td>
-                </tr>
+                @foreach ($dataEmployees as $key => $value)
+                    <tr>
+                        <td>{{ $dataEmployees->firstItem() + $key }}</td>
+                        <td>{{ $value->nama }}</td>
+                        <td>{{ $value->email }}</td>
+                        <td>{{ $value->alamat }}</td>
+                        <td>
+                            <a href="" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="" class="btn btn-danger btn-sm">Del</a>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
-
+        {{ $dataEmployees->links() }}
     </div>
     <!-- AKHIR DATA -->
 </div>
