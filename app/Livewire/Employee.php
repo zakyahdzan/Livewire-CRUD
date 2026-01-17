@@ -96,6 +96,7 @@ class Employee extends Component
         $this->employee_id = $id;
     }
 
+    
     public function render()
     {
         $data = ModelsEmployee::orderBy('nama', 'asc')->paginate(2);
