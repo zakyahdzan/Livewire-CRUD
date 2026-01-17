@@ -73,14 +73,27 @@ class Employee extends Component
         $this->clear();
     }
 
-    public function clear(){
+    public function clear()
+    {
         $this->nama = '';
         $this->email = '';
         $this->alamat = '';
 
         $this->updateData = false;
         $this->employee_id = '';
+    }
 
+    public function delete()
+    {
+        $id = $this->employee_id;
+        ModelsEmployee::find($id)->delete();
+
+        session()->flash('message', 'Data berhasil dihapus');
+    }
+
+    public function delete_konfirmasi($id)
+    {
+        $this->employee_id = $id;
     }
 
     public function render()
