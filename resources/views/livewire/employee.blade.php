@@ -41,8 +41,15 @@
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10"><button type="button" class="btn btn-primary" name="submit"
+                <div class="col-sm-10">
+                    @if ($updateData == false)
+                         <button type="button" class="btn btn-primary" name="submit"
                         wire:click="store()">SIMPAN</button>
+                    @else
+                         <button type="button" class="btn btn-primary" name="submit"
+                        wire:click="update()">UPDATE</button>  
+                    @endif
+                   
                 </div>
             </div>
         </form>
@@ -70,7 +77,7 @@
                         <td>{{ $value->email }}</td>
                         <td>{{ $value->alamat }}</td>
                         <td>
-                            <a href="" class="btn btn-warning btn-sm">Edit</a>
+                            <a wire:click="edit({{ $value->id }})"class="btn btn-warning btn-sm">Edit</a>
                             <a href="" class="btn btn-danger btn-sm">Del</a>
                         </td>
                     </tr>

@@ -14,6 +14,8 @@ class Employee extends Component
     public $nama;
     public $email;
     public $alamat;
+    public $updateData = false;
+    public $employee_id;
 
 
     public function store()
@@ -24,21 +26,66 @@ class Employee extends Component
             'alamat' => 'required'
         ];
         $pesan = [
-            'nama.required'=>'Nama Wajib Diisi',
-            'email.required'=>'Email Wajib Diisi',
-            'email.email'=>' Format Wajib Email',
-            'alamat.required'=>'Alamat Wajib Diisi',
+            'nama.required' => 'Nama Wajib Diisi',
+            'email.required' => 'Email Wajib Diisi',
+            'email.email' => ' Format Wajib Email',
+            'alamat.required' => 'Alamat Wajib Diisi',
         ];
 
         $validated = $this->validate($rules, $pesan);
 
         ModelsEmployee::create($validated);
         session()->flash('message', 'Data berhasil dimasukan');
+        $this->clear();
     }
+
+    public function edit($id)
+    {
+        $data = ModelsEmployee::find($id);
+        $this->nama = $data->nama;
+        $this->email = $data->email;
+        $this->alamat = $data->alamat;
+
+        $this->updateData = true;
+        $this->employee_id = $id;
+    }
+
+    public function update()
+    {
+        $rules = [
+            'nama' => 'required',
+            'email' => 'required|email',
+            'alamat' => 'required'
+        ];
+        $pesan = [
+            'nama.required' => 'Nama Wajib Diisi',
+            'email.required' => 'Email Wajib Diisi',
+            'email.email' => ' Format Wajib Email',
+            'alamat.required' => 'Alamat Wajib Diisi',
+        ];
+
+        $validated = $this->validate($rules, $pesan);
+
+        $data = ModelsEmployee::find($this->employee_id);
+        $data->update($validated);
+        session()->flash('message', 'Data berhasil diupdate');
+
+        $this->clear();
+    }
+
+    public function clear(){
+        $this->nama = '';
+        $this->email = '';
+        $this->alamat = '';
+
+        $this->updateData = false;
+        $this->employee_id = '';
+
+    }
+
     public function render()
     {
         $data = ModelsEmployee::orderBy('nama', 'asc')->paginate(2);
         return view('livewire.employee', ['dataEmployees' => $data]);
     }
 }
- 
