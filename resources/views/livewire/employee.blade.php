@@ -62,9 +62,16 @@
         <div>
             <input type="text" class="form-control mb-3 w-25" placeholder="Search..." wire:model.live="katakunci">
         </div>
+
+        @if ($employee_selected_id)
+            <a wire:click="delete_konfirmasi('')" class="btn btn-danger btn-sm mb-2"
+            data-bs-toggle="modal" data-bs-target="#exampleModal">Del {{count($employee_selected_id)}} data </a>
+        @endif
+
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th></th>
                     <th class="col-md-1">No</th>
                     <th class="col-md-4">Nama</th>
                     <th class="col-md-3">Email</th>
@@ -75,13 +82,16 @@
             <tbody>
                 @foreach ($dataEmployees as $key => $value)
                     <tr>
+                        <td><input type="checkbox" wire:key={{ $value->id }} value="{{ $value->id }}" wire:model.live="employee_selected_id">
+                        </td>
                         <td>{{ $dataEmployees->firstItem() + $key }}</td>
                         <td>{{ $value->nama }}</td>
                         <td>{{ $value->email }}</td>
                         <td>{{ $value->alamat }}</td>
                         <td>
                             <a wire:click="edit({{ $value->id }})"class="btn btn-warning btn-sm">Edit</a>
-                            <a wire:click="delete_konfirmasi({{ $value->id }})" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Del</a>
+                            <a wire:click="delete_konfirmasi({{ $value->id }})" class="btn btn-danger btn-sm"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal">Del</a>
                         </td>
                     </tr>
                 @endforeach
@@ -91,7 +101,8 @@
     </div>
     <!-- AKHIR DATA -->
     <!-- Modal -->
-    <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -99,11 +110,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    yakin hapus data 
+                    yakin hapus data
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">tidak</button>
-                    <button type="button" class="btn btn-primary" wire:click="delete()" data-bs-dismiss="modal">Ya</button>
+                    <button type="button" class="btn btn-primary" wire:click="delete()"
+                        data-bs-dismiss="modal">Ya</button>
                 </div>
             </div>
         </div>
